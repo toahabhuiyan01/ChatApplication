@@ -4,6 +4,7 @@ import queryString from "query-string"
 import io from "socket.io-client"
 import ScrollToBottom from "react-scroll-to-bottom"
 
+const DEF_SOCKET_URL = 'http://localhost:8000'
 let socket
 
 const Chat = () => {
@@ -12,8 +13,10 @@ const Chat = () => {
 	const [messages, setMessages] = useState([])
 	const [users, setUsers] = useState([])
 
+	const socketUrl = process.env
+
     useEffect(() => {
-        socket = io('http://localhost:8000')
+        socket = io(socketUrl || DEF_SOCKET_URL)
         socket.emit('join', { name, room }, (error) => {
             if(error) {
                 alert(error)
